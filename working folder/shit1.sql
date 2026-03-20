@@ -1,0 +1,2 @@
+SELECT *
+FROM _AccumRg20664
