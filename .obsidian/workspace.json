@@ -178,7 +178,8 @@
   },
   "active": "3f7ca864305dc45c",
   "lastOpenFiles": [
-    "a.objects/enum/enumВидиСмен.sql",
+    "a.objects/enum/enumВидыСмен.sql",
+    "a.objects/enum/enumВидыСмен.sql",
     "a.objects/enum/enum_ВидиСмен.sql",
     "working folder/standart.md",
     "working folder/standart.sql",
@@ -189,7 +190,6 @@
     "standardize_files.ps1",
     "a.objects.backup_20260323_163654/спр/спрТехнологическиеХарактеристикиНоменклатуры.sql",
     "a.objects.backup_20260323_163654/спр/спрСтатьиЗатрат.sql",
-    "a.objects.backup_20260323_163654/спр/спрСтатусыЗаказовПокупателя.sql",
-    "a.objects.backup_20260323_163654/спр/спрСпецификацииНоменклатуры.sql"
+    "a.objects.backup_20260323_163654/спр/спрСтатусыЗаказовПокупателя.sql"
   ]
 }
