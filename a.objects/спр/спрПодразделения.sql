@@ -1,1 +1,0 @@
-SELECT * FROM _Reference171
