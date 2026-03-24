@@ -186,7 +186,7 @@
         OR 
             планвидхарСвойстваОбъектов.NameN = 'SKU'
     )
-)
+) --
 ,Props_Svoistva_PivotViz_Номенклатура AS (
     SELECT
         pvt.FK_Номенклатура_Свойства,

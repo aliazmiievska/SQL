@@ -18,7 +18,7 @@ spr_TechnolHaraktNomen AS ( -- ../spr/spr_TechnolHaraktNomen.sql
         AND 
         spr_TechnolHaraktNomen._Fld24300 = 1 -- Активна
 ),
-
+--
 -----------------------------------------------------------------------------------------------------
 
 spr_TechnolHaraktNomen_SpisokHarakt AS ( -- підфайл

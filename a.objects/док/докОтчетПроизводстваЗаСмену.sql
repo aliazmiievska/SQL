@@ -1702,7 +1702,7 @@ FROM
     Viz__Main_OEE__докОПЗС
 ORDER BY
     [Дата Зміни] DESC
-
+--
 
 -- working
 

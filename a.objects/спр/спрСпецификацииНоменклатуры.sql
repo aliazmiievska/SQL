@@ -149,7 +149,7 @@ spr_SpecifNomenkl_VyhodIzdelia AS ( -- підфайл
 )
 -- для пропсу -----------------
 
-
+--
 -- пропс ----------------------------------------------
 ,propsVyvidChar_SpecifNomenkl AS (
     SELECT
