@@ -12,8 +12,8 @@ spr_TechnolHaraktNomen AS (
         spr_TechnolHaraktNomen._Marked = 0
         AND 
         spr_TechnolHaraktNomen._Fld24300 = 1
-),
-spr_TechnolHaraktNomen_SpisokHarakt AS (
+)
+,spr_TechnolHaraktNomen_SpisokHarakt AS (
     SELECT
         spr_TechnolHaraktNomen_SpisokHarakt._Reference24296_IDRRef AS FK_Характеристика,
         spr_TechnolHaraktNomen_SpisokHarakt._Fld24304RRef AS СвойствоRref,
@@ -26,8 +26,8 @@ spr_TechnolHaraktNomen_SpisokHarakt AS (
         spr_TechnolHaraktNomen_SpisokHarakt._Fld24305_RTRef AS ЗначенняRTRef,
         spr_TechnolHaraktNomen_SpisokHarakt._Fld24306 AS Відхилення
     FROM _Reference24296_VT24302 AS spr_TechnolHaraktNomen_SpisokHarakt
-),
-spr_Nomenklatura AS (
+)
+,spr_Nomenklatura AS (
     SELECT
         spr_Nomenklatura._IDRRef AS ID,
         spr_Nomenklatura._Code AS Code,
@@ -35,8 +35,8 @@ spr_Nomenklatura AS (
         spr_Nomenklatura._Marked AS ПоміткаВидалення,
         spr_Nomenklatura._Folder AS Група
     FROM _Reference149 AS spr_Nomenklatura
-),
-spr_ZnachSvoistvOb AS (
+)
+,spr_ZnachSvoistvOb AS (
     SELECT
         spr_ZnachSvoistvOb._IDRRef AS ID,
         spr_ZnachSvoistvOb._Code AS Code,
@@ -45,8 +45,8 @@ spr_ZnachSvoistvOb AS (
         spr_ZnachSvoistvOb._Folder AS Група
     FROM
         _Reference93 AS spr_ZnachSvoistvOb
-),
-planVidHar_TechSvoistvaOb AS (
+)
+,planVidHar_TechSvoistvaOb AS (
     SELECT
         planVidHar_TechSvoistvaOb._IDRRef AS ID,
         planVidHar_TechSvoistvaOb._Code AS Code,
@@ -59,8 +59,8 @@ planVidHar_TechSvoistvaOb AS (
         planVidHar_TechSvoistvaOb._Fld24399_RRRef AS РозрахунокПосилання,
         planVidHar_TechSvoistvaOb._Fld24399_N AS РозрахунокЧисло
     FROM _Chrc24297 AS planVidHar_TechSvoistvaOb
-),
-PropsOneColumnChar AS (
+)
+,PropsOneColumnChar AS (
     SELECT
         spr_TechnolHaraktNomen.FK_Номенклатура AS FK_Номенклатура_Характеристики,
         spr_TechnolHaraktNomen.Code AS КодХарактеристики,
