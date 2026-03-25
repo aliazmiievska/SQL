@@ -1,16 +1,16 @@
 ;WITH 
-spr_SpecifNomenkl_VyhodIzdelia AS (
+TbptВыходИзделия__спрСпецификацииНоменклатуры AS (
     SELECT
-        spr_SpecifNomenkl_VyhodIzdelia._Reference207_IDRRef
-        ,spr_SpecifNomenkl_VyhodIzdelia._Fld2796RRef AS FK_Номенклатура
-        ,spr_SpecifNomenkl_VyhodIzdelia._Fld2798 AS Количество_ВиходногоИзделия
+        TbptВыходИзделия__спрСпецификацииНоменклатуры._Reference207_IDRRef
+        ,TbptВыходИзделия__спрСпецификацииНоменклатуры._Fld2796RRef AS FK_Номенклатура
+        ,TbptВыходИзделия__спрСпецификацииНоменклатуры._Fld2798 AS Количество_ВиходногоИзделия
         ,_Reference207_IDRRef AS ID
-    FROM _Reference207_VT2794 AS spr_SpecifNomenkl_VyhodIzdelia
+    FROM _Reference207_VT2794 AS TbptВыходИзделия__спрСпецификацииНоменклатуры
 )
-,Більше1ВиходнеІздПомилка AS ( -- перевірка 1:N на випадок, якщо фірма почне використовувати як N:N, або станеться баг в базі
+,Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН AS ( -- перевірка 1:N на випадок, якщо фірма почне використовувати як N:N, або станеться баг в базі
     SELECT 
         _Reference207_IDRRef AS ID
-        ,COUNT(_Reference207_IDRRef) AS Більше1ВиходнеІздПомилка
+        ,COUNT(_Reference207_IDRRef) AS Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН
     FROM 
         _Reference207_VT2794
     
@@ -19,109 +19,109 @@ spr_SpecifNomenkl_VyhodIzdelia AS (
     HAVING 
         COUNT(_Reference207_IDRRef) > 1
 )
-,spr_SpecifNomenkl AS (
+,спрСпецификацииНоменклатуры AS (
     SELECT
-        spr_SpecifNomenkl_VyhodIzdelia.FK_Номенклатура AS FK_Номенклатура
-        ,spr_SpecifNomenkl._IDRRef AS ID
-        ,spr_SpecifNomenkl._Code AS Code
-        ,spr_SpecifNomenkl._Description AS Назва
-        ,spr_SpecifNomenkl._Marked AS ПоміткаВидалення
-        ,spr_SpecifNomenkl._Fld2757 AS Активна
-        ,spr_SpecifNomenkl_VyhodIzdelia.Количество_ВиходногоИзделия 
-        ,Більше1ВиходнеІздПомилка.Більше1ВиходнеІздПомилка AS Більше1ВиходнеІздПомилка
+        TbptВыходИзделия__спрСпецификацииНоменклатуры.FK_Номенклатура AS FK_Номенклатура
+        ,спрСпецификацииНоменклатуры._IDRRef AS ID
+        ,спрСпецификацииНоменклатуры._Code AS Code
+        ,спрСпецификацииНоменклатуры._Description AS Назва
+        ,спрСпецификацииНоменклатуры._Marked AS ПоміткаВидалення
+        ,спрСпецификацииНоменклатуры._Fld2757 AS Активна
+        ,TbptВыходИзделия__спрСпецификацииНоменклатуры.Количество_ВиходногоИзделия 
+        ,Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН.Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН AS Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН
     FROM 
-        _Reference207 AS spr_SpecifNomenkl
+        _Reference207 AS спрСпецификацииНоменклатуры
         LEFT JOIN 
-            spr_SpecifNomenkl_VyhodIzdelia AS spr_SpecifNomenkl_VyhodIzdelia 
+            TbptВыходИзделия__спрСпецификацииНоменклатуры AS TbptВыходИзделия__спрСпецификацииНоменклатуры 
             ON 
-                spr_SpecifNomenkl._IDRRef = spr_SpecifNomenkl_VyhodIzdelia.ID
+                спрСпецификацииНоменклатуры._IDRRef = TbptВыходИзделия__спрСпецификацииНоменклатуры.ID
         LEFT JOIN 
-            Більше1ВиходнеІздПомилка AS Більше1ВиходнеІздПомилка -- перевірка 1:N на випадок N:N
+            Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН AS Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН -- перевірка 1:N на випадок N:N
             ON 
-                spr_SpecifNomenkl._IDRRef = Більше1ВиходнеІздПомилка.ID
+                спрСпецификацииНоменклатуры._IDRRef = Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН.ID
     WHERE
-        spr_SpecifNomenkl._Marked = 0
+        спрСпецификацииНоменклатуры._Marked = 0
         AND 
-        spr_SpecifNomenkl._Fld2757 = 1
+        спрСпецификацииНоменклатуры._Fld2757 = 1
 )
-,spr_SpecifNomenkl_IsxodKomplektuyushie AS (
+,TbptИсходныеКомплектующие__спрСН AS (
     SELECT
-        spr_SpecifNomenkl_IsxodKomplektuyushie._Reference207_IDRRef AS FK_spr_SpecifNomenkl
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie._Fld2772RRef AS ВидНормативаFK
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie._Fld2773_RRRef AS НоменклатураFK
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie._Fld2775 AS Кількість
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie._Fld2776RRef AS ОдиницяВиміруFK
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie._Fld2777RRef AS СтаттяЗатратFK
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie._Fld2781 AS Кратність
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie._Fld2782RRef AS ВидПроізводстваFK
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie._Fld2783RRef AS СпецифікаціяFK
+        TbptИсходныеКомплектующие__спрСН._Reference207_IDRRef AS FK_спрСпецификацииНоменклатуры
+        ,TbptИсходныеКомплектующие__спрСН._Fld2772RRef AS ВидНормативаFK
+        ,TbptИсходныеКомплектующие__спрСН._Fld2773_RRRef AS НоменклатураFK
+        ,TbptИсходныеКомплектующие__спрСН._Fld2775 AS Кількість
+        ,TbptИсходныеКомплектующие__спрСН._Fld2776RRef AS ОдиницяВиміруFK
+        ,TbptИсходныеКомплектующие__спрСН._Fld2777RRef AS СтаттяЗатратFK
+        ,TbptИсходныеКомплектующие__спрСН._Fld2781 AS Кратність
+        ,TbptИсходныеКомплектующие__спрСН._Fld2782RRef AS ВидПроізводстваFK
+        ,TbptИсходныеКомплектующие__спрСН._Fld2783RRef AS СпецифікаціяFK
     FROM 
-        _Reference207_VT2770 AS spr_SpecifNomenkl_IsxodKomplektuyushie
+        _Reference207_VT2770 AS TbptИсходныеКомплектующие__спрСН
 )
-,spr_SpecifNomenkl_ParamVypuskaProdukcii AS (
+,TbptПараметрыВыпускаПродукции__спрСН AS (
     SELECT
-        spr_SpecifNomenkl_ParamVypuskaProdukcii._Reference207_IDRRef AS FK_spr_SpecifNomenkl
-        ,spr_SpecifNomenkl_ParamVypuskaProdukcii._Fld2828RRef AS ВидПараметраFK
-        ,spr_SpecifNomenkl_ParamVypuskaProdukcii._Fld2829 AS Значення
+        TbptПараметрыВыпускаПродукции__спрСН._Reference207_IDRRef AS FK_спрСпецификацииНоменклатуры
+        ,TbptПараметрыВыпускаПродукции__спрСН._Fld2828RRef AS ВидПараметраFK
+        ,TbptПараметрыВыпускаПродукции__спрСН._Fld2829 AS Значення
     FROM 
-        _Reference207_VT2826 AS spr_SpecifNomenkl_ParamVypuskaProdukcii
+        _Reference207_VT2826 AS TbptПараметрыВыпускаПродукции__спрСН
 )
-,spr_Nomenklatura AS (
+,спрНоменклатура AS (
     SELECT
-        spr_Nomenklatura._IDRRef AS НоменклатураID
-        ,spr_Nomenklatura._Code AS НоменклатураCode
-        ,spr_Nomenklatura._Description AS НазваНоменклатури
-        ,spr_Nomenklatura._Marked AS ПоміткаВидаленняНоменклатури
-        ,spr_Nomenklatura._Folder AS ГрупаНоменклатури
-        ,spr_Nomenklatura._Fld2306RRef AS FK_ВидНоменклатурьі_Номенклатура
-        ,spr_Nomenklatura._Fld23716 AS КількістьВУпаковці_Номенклатура
-        ,spr_Nomenklatura._Fld25116RRef AS FK_Проект_КаналЗбуту_Номенклатура
-    FROM _Reference149 AS spr_Nomenklatura
+        спрНоменклатура._IDRRef AS НоменклатураID
+        ,спрНоменклатура._Code AS НоменклатураCode
+        ,спрНоменклатура._Description AS НазваНоменклатури
+        ,спрНоменклатура._Marked AS ПоміткаВидаленняНоменклатури
+        ,спрНоменклатура._Folder AS ГрупаНоменклатури
+        ,спрНоменклатура._Fld2306RRef AS FK_ВидНоменклатурьі_Номенклатура
+        ,спрНоменклатура._Fld23716 AS КількістьВУпаковці_Номенклатура
+        ,спрНоменклатура._Fld25116RRef AS FK_Проект_КаналЗбуту_Номенклатура
+    FROM _Reference149 AS спрНоменклатура
 )
-,spr_VidyParamProizvods AS (
+,спрВидыПараметровПроизводства AS (
     SELECT
-        spr_VidyParamProizvods._IDRRef AS ID_ВидиПарамПроізводства,
-        spr_VidyParamProizvods._Code AS Code_ВидиПарамПроізводства,
-        spr_VidyParamProizvods._Description AS Назва_ВидиПарамПроізводства,
-        spr_VidyParamProizvods._Marked AS ПоміткаВидалення_ВидиПарамПроізводства,
-        spr_VidyParamProizvods._Folder AS ГрупаНоменклатури_ВидиПарамПроізводства
-    FROM _Reference23884 AS spr_VidyParamProizvods
+        спрВидыПараметровПроизводства._IDRRef AS ID_ВидиПарамПроізводства,
+        спрВидыПараметровПроизводства._Code AS Code_ВидиПарамПроізводства,
+        спрВидыПараметровПроизводства._Description AS Назва_ВидиПарамПроізводства,
+        спрВидыПараметровПроизводства._Marked AS ПоміткаВидалення_ВидиПарамПроізводства,
+        спрВидыПараметровПроизводства._Folder AS ГрупаНоменклатури_ВидиПарамПроізводства
+    FROM _Reference23884 AS спрВидыПараметровПроизводства
 )
-,spr_VidyParamVypuskProd AS (
+,спрВидыПараметровВыпускаПродукции AS (
     SELECT
-        spr_VidyParamVypuskProd._IDRRef AS ID_ВидиПарамВипускПрод,
-        spr_VidyParamVypuskProd._Code AS Code_ВидиПарамВипускПрод,
-        spr_VidyParamVypuskProd._Description AS Назва_ВидиПарамВипускПрод,
-        spr_VidyParamVypuskProd._Marked AS ПоміткаВидалення_ВидиПарамВипускПрод,
-        spr_VidyParamVypuskProd._Folder AS ГрупаНоменклатури_ВидиПарамВипускПрод
-    FROM _Reference56 AS spr_VidyParamVypuskProd
+        спрВидыПараметровВыпускаПродукции._IDRRef AS ID_ВидиПарамВипускПрод,
+        спрВидыПараметровВыпускаПродукции._Code AS Code_ВидиПарамВипускПрод,
+        спрВидыПараметровВыпускаПродукции._Description AS Назва_ВидиПарамВипускПрод,
+        спрВидыПараметровВыпускаПродукции._Marked AS ПоміткаВидалення_ВидиПарамВипускПрод,
+        спрВидыПараметровВыпускаПродукции._Folder AS ГрупаНоменклатури_ВидиПарамВипускПрод
+    FROM _Reference56 AS спрВидыПараметровВыпускаПродукции
 )
-,спр_ЕдиницьіИзмерения AS (
+,спрЕдиницыИзмерения AS (
     SELECT
-        спр_ЕдиницьіИзмерения._IDRRef AS ID_ЕдиницьіИзмерения
-        ,спр_ЕдиницьіИзмерения._Code AS Code_ЕдиницьіИзмерения
-        ,спр_ЕдиницьіИзмерения._Description AS Назва_ЕдиницьіИзмерения
-        ,спр_ЕдиницьіИзмерения._Marked AS ПоміткаВидалення_ЕдиницьіИзмерения
-    FROM _Reference89 AS спр_ЕдиницьіИзмерения
+        спрЕдиницыИзмерения._IDRRef AS ID_ЕдиницьіИзмерения
+        ,спрЕдиницыИзмерения._Code AS Code_ЕдиницьіИзмерения
+        ,спрЕдиницыИзмерения._Description AS Назва_ЕдиницьіИзмерения
+        ,спрЕдиницыИзмерения._Marked AS ПоміткаВидалення_ЕдиницьіИзмерения
+    FROM _Reference89 AS спрЕдиницыИзмерения
 )
-,спр_СтатьиЗатрат AS (
+,спрСтатьиЗатрат AS (
     SELECT
-        спр_СтатьиЗатрат._IDRRef AS ID_СтатьиЗатрат
-        ,спр_СтатьиЗатрат._Code AS Код_СтатьиЗатрат
-        ,спр_СтатьиЗатрат._Description AS Наименование_СтатьиЗатрат
-        ,спр_СтатьиЗатрат._Marked AS ПометкаУдаления_СтатьиЗатрат
-    FROM _Reference216 AS спр_СтатьиЗатрат
+        спрСтатьиЗатрат._IDRRef AS ID_СтатьиЗатрат
+        ,спрСтатьиЗатрат._Code AS Код_СтатьиЗатрат
+        ,спрСтатьиЗатрат._Description AS Наименование_СтатьиЗатрат
+        ,спрСтатьиЗатрат._Marked AS ПометкаУдаления_СтатьиЗатрат
+    FROM _Reference216 AS спрСтатьиЗатрат
 )
-,propsVyvidChar_SpecifNomenkl AS (
+,Props__ГосподиПрости__спрСН AS (
     SELECT
-        spr_SpecifNomenkl.FK_Номенклатура AS FK_Номенклатура_Специфікації
-        ,spr_SpecifNomenkl.Количество_ВиходногоИзделия                  AS Количество_ВиходногоИзделия
-        ,spr_SpecifNomenkl.Code                                         AS КодСпецифікації
-        ,spr_SpecifNomenkl.Назва                                        AS НазваСпецифікації
-        ,spr_SpecifNomenkl.Більше1ВиходнеІздПомилка                     AS Більше1ВиходнеІздПомилка
+        спрСпецификацииНоменклатуры.FK_Номенклатура AS FK_Номенклатура_Специфікації
+        ,спрСпецификацииНоменклатуры.Количество_ВиходногоИзделия                  AS Количество_ВиходногоИзделия
+        ,спрСпецификацииНоменклатуры.Code                                         AS КодСпецифікації
+        ,спрСпецификацииНоменклатуры.Назва                                        AS НазваСпецифікації
+        ,спрСпецификацииНоменклатуры.Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН                     AS Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН
         ,'ПараметриВипуску'                                             AS ТипСписку
-        ,spr_VidyParamVypuskProd.Назва_ВидиПарамВипускПрод              AS ВидПараметра_ВипускПродукції
-        ,spr_SpecifNomenkl_ParamVypuskaProdukcii.Значення               AS Значення_ВипускПродукції
+        ,спрВидыПараметровВыпускаПродукции.Назва_ВидиПарамВипускПрод              AS ВидПараметра_ВипускПродукції
+        ,TbptПараметрыВыпускаПродукции__спрСН.Значення               AS Значення_ВипускПродукції
         ,NULL                                                           AS ВидПроізводства_Комплектуючої
         ,NULL                                                           AS Кратність_Комплектуючої
         ,NULL                                                           AS Кількість_Комплектуючої
@@ -130,41 +130,41 @@ spr_SpecifNomenkl_VyhodIzdelia AS (
         ,NULL                                                           AS Специфікація_Комплектуючої
         ,NULL                                                           AS СтаттяЗатрат_Комплектуючої
     FROM 
-        spr_SpecifNomenkl
-        INNER JOIN spr_SpecifNomenkl_ParamVypuskaProdukcii
-            ON spr_SpecifNomenkl.ID = spr_SpecifNomenkl_ParamVypuskaProdukcii.FK_spr_SpecifNomenkl
-        LEFT JOIN spr_VidyParamVypuskProd
-            ON spr_SpecifNomenkl_ParamVypuskaProdukcii.ВидПараметраFK = spr_VidyParamVypuskProd.ID_ВидиПарамВипускПрод
+        спрСпецификацииНоменклатуры
+        INNER JOIN TbptПараметрыВыпускаПродукции__спрСН
+            ON спрСпецификацииНоменклатуры.ID = TbptПараметрыВыпускаПродукции__спрСН.FK_спрСпецификацииНоменклатуры
+        LEFT JOIN спрВидыПараметровВыпускаПродукции
+            ON TbptПараметрыВыпускаПродукции__спрСН.ВидПараметраFK = спрВидыПараметровВыпускаПродукции.ID_ВидиПарамВипускПрод
 UNION ALL
 SELECT
-        spr_SpecifNomenkl.FK_Номенклатура AS FK_Номенклатура_Специфікації
-        ,spr_SpecifNomenkl.Количество_ВиходногоИзделия                  AS Количество_ВиходногоИзделия
-        ,spr_SpecifNomenkl.Code                                         AS КодСпецифікації
-        ,spr_SpecifNomenkl.Назва                                        AS НазваСпецифікації
-        ,spr_SpecifNomenkl.Більше1ВиходнеІздПомилка                     AS Більше1ВиходнеІздПомилка
+        спрСпецификацииНоменклатуры.FK_Номенклатура AS FK_Номенклатура_Специфікації
+        ,спрСпецификацииНоменклатуры.Количество_ВиходногоИзделия                  AS Количество_ВиходногоИзделия
+        ,спрСпецификацииНоменклатуры.Code                                         AS КодСпецифікації
+        ,спрСпецификацииНоменклатуры.Назва                                        AS НазваСпецифікації
+        ,спрСпецификацииНоменклатуры.Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН                     AS Agr__Більше1ВиходнеІздПомилка__TbptВИ_спрСН
         ,'ІсходніКомплектуючі'                                          AS ТипСписку
         ,NULL                                                           AS ВидПараметра_ВипускПродукції
         ,NULL                                                           AS Значення_ВипускПродукції
-        ,spr_VidyParamProizvods.Назва_ВидиПарамПроізводства             AS ВидПроізводства_Комплектуючої
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie.Кратність               AS Кратність_Комплектуючої
-        ,spr_SpecifNomenkl_IsxodKomplektuyushie.Кількість               AS Кількість_Комплектуючої
-        ,spr_Nomenklatura_Комплектуючі.НазваНоменклатури                AS НоменклатураКомплектуючої
-        ,спр_ЕдиницьіИзмерения.Назва_ЕдиницьіИзмерения                  AS ОдиницяВиміру_Комплектуючої
-        ,spr_SpecifNomenkl_Комплектуючі.Назва                           AS СпецифікаціяКомплектуючої
-        ,спр_СтатьиЗатрат.Наименование_СтатьиЗатрат                     AS СтаттяЗатрат_Комплектуючої
+        ,спрВидыПараметровПроизводства.Назва_ВидиПарамПроізводства             AS ВидПроізводства_Комплектуючої
+        ,TbptИсходныеКомплектующие__спрСН.Кратність               AS Кратність_Комплектуючої
+        ,TbptИсходныеКомплектующие__спрСН.Кількість               AS Кількість_Комплектуючої
+        ,спрНоменклатура_Комплектуючі.НазваНоменклатури                AS НоменклатураКомплектуючої
+        ,спрЕдиницыИзмерения.Назва_ЕдиницьіИзмерения                  AS ОдиницяВиміру_Комплектуючої
+        ,спрСпецификацииНоменклатуры_Комплектуючі.Назва                           AS СпецифікаціяКомплектуючої
+        ,спрСтатьиЗатрат.Наименование_СтатьиЗатрат                     AS СтаттяЗатрат_Комплектуючої
     FROM 
-        spr_SpecifNomenkl
-        INNER JOIN spr_SpecifNomenkl_IsxodKomplektuyushie
-            ON spr_SpecifNomenkl.ID = spr_SpecifNomenkl_IsxodKomplektuyushie.FK_spr_SpecifNomenkl
-        LEFT JOIN spr_VidyParamProizvods
-            ON spr_SpecifNomenkl_IsxodKomplektuyushie.ВидПроізводстваFK = spr_VidyParamProizvods.ID_ВидиПарамПроізводства
-        LEFT JOIN спр_ЕдиницьіИзмерения
-            ON spr_SpecifNomenkl_IsxodKomplektuyushie.ОдиницяВиміруFK = спр_ЕдиницьіИзмерения.ID_ЕдиницьіИзмерения
-        LEFT JOIN спр_СтатьиЗатрат
-            ON spr_SpecifNomenkl_IsxodKomplektuyushie.СтаттяЗатратFK = спр_СтатьиЗатрат.ID_СтатьиЗатрат
-        LEFT JOIN spr_Nomenklatura AS spr_Nomenklatura_Комплектуючі
-            ON spr_SpecifNomenkl_IsxodKomplektuyushie.НоменклатураFK = spr_Nomenklatura_Комплектуючі.НоменклатураID
-        LEFT JOIN spr_SpecifNomenkl AS spr_SpecifNomenkl_Комплектуючі
-            ON spr_SpecifNomenkl_IsxodKomplektuyushie.СпецифікаціяFK = spr_SpecifNomenkl_Комплектуючі.ID
+        спрСпецификацииНоменклатуры
+        INNER JOIN TbptИсходныеКомплектующие__спрСН
+            ON спрСпецификацииНоменклатуры.ID = TbptИсходныеКомплектующие__спрСН.FK_спрСпецификацииНоменклатуры
+        LEFT JOIN спрВидыПараметровПроизводства
+            ON TbptИсходныеКомплектующие__спрСН.ВидПроізводстваFK = спрВидыПараметровПроизводства.ID_ВидиПарамПроізводства
+        LEFT JOIN спрЕдиницыИзмерения
+            ON TbptИсходныеКомплектующие__спрСН.ОдиницяВиміруFK = спрЕдиницыИзмерения.ID_ЕдиницьіИзмерения
+        LEFT JOIN спрСтатьиЗатрат
+            ON TbptИсходныеКомплектующие__спрСН.СтаттяЗатратFK = спрСтатьиЗатрат.ID_СтатьиЗатрат
+        LEFT JOIN спрНоменклатура AS спрНоменклатура_Комплектуючі
+            ON TbptИсходныеКомплектующие__спрСН.НоменклатураFK = спрНоменклатура_Комплектуючі.НоменклатураID
+        LEFT JOIN спрСпецификацииНоменклатуры AS спрСпецификацииНоменклатуры_Комплектуючі
+            ON TbptИсходныеКомплектующие__спрСН.СпецифікаціяFK = спрСпецификацииНоменклатуры_Комплектуючі.ID
 )
-SELECT * FROM propsVyvidChar_SpecifNomenkl
+SELECT * FROM Props__ГосподиПрости__спрСН

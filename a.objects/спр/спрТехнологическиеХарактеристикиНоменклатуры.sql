@@ -1,103 +1,103 @@
 ;WITH 
-spr_TechnolHaraktNomen AS (
+спрТехнологическиеХарактеристикиНоменклатуры AS (
     SELECT
-        spr_TechnolHaraktNomen._Fld24298RRef AS FK_Номенклатура,
-        spr_TechnolHaraktNomen._IDRRef AS ID,
-        spr_TechnolHaraktNomen._Code AS Code,
-        spr_TechnolHaraktNomen._Description AS Назва,
-        spr_TechnolHaraktNomen._Marked AS ПоміткаВидалення,
-        spr_TechnolHaraktNomen._Fld24300 AS Активна
-    FROM _Reference24296 AS spr_TechnolHaraktNomen
+        спрТехнологическиеХарактеристикиНоменклатуры._Fld24298RRef AS FK_Номенклатура,
+        спрТехнологическиеХарактеристикиНоменклатуры._IDRRef AS ID,
+        спрТехнологическиеХарактеристикиНоменклатуры._Code AS Code,
+        спрТехнологическиеХарактеристикиНоменклатуры._Description AS Назва,
+        спрТехнологическиеХарактеристикиНоменклатуры._Marked AS ПоміткаВидалення,
+        спрТехнологическиеХарактеристикиНоменклатуры._Fld24300 AS Активна
+    FROM _Reference24296 AS спрТехнологическиеХарактеристикиНоменклатуры
     WHERE 
-        spr_TechnolHaraktNomen._Marked = 0
+        спрТехнологическиеХарактеристикиНоменклатуры._Marked = 0
         AND 
-        spr_TechnolHaraktNomen._Fld24300 = 1
+        спрТехнологическиеХарактеристикиНоменклатуры._Fld24300 = 1
 )
-,spr_TechnolHaraktNomen_SpisokHarakt AS (
+,TbptСписокХарактеристик__спрТХН AS (
     SELECT
-        spr_TechnolHaraktNomen_SpisokHarakt._Reference24296_IDRRef AS FK_Характеристика,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24304RRef AS СвойствоRref,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24305_TYPE AS ТипЗначення,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24305_S AS ЗначенняСимвольне,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24305_N AS ЗначенняЧислове,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24305_T AS ЗначенняДата,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24305_L AS ЗначенняЛогічне,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24305_RRRef AS ЗначенняRRRef,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24305_RTRef AS ЗначенняRTRef,
-        spr_TechnolHaraktNomen_SpisokHarakt._Fld24306 AS Відхилення
-    FROM _Reference24296_VT24302 AS spr_TechnolHaraktNomen_SpisokHarakt
+        TbptСписокХарактеристик__спрТХН._Reference24296_IDRRef AS FK_Характеристика,
+        TbptСписокХарактеристик__спрТХН._Fld24304RRef AS СвойствоRref,
+        TbptСписокХарактеристик__спрТХН._Fld24305_TYPE AS ТипЗначення,
+        TbptСписокХарактеристик__спрТХН._Fld24305_S AS ЗначенняСимвольне,
+        TbptСписокХарактеристик__спрТХН._Fld24305_N AS ЗначенняЧислове,
+        TbptСписокХарактеристик__спрТХН._Fld24305_T AS ЗначенняДата,
+        TbptСписокХарактеристик__спрТХН._Fld24305_L AS ЗначенняЛогічне,
+        TbptСписокХарактеристик__спрТХН._Fld24305_RRRef AS ЗначенняRRRef,
+        TbptСписокХарактеристик__спрТХН._Fld24305_RTRef AS ЗначенняRTRef,
+        TbptСписокХарактеристик__спрТХН._Fld24306 AS Відхилення
+    FROM _Reference24296_VT24302 AS TbptСписокХарактеристик__спрТХН
 )
-,spr_Nomenklatura AS (
+,спрНоменклатура AS (
     SELECT
-        spr_Nomenklatura._IDRRef AS ID,
-        spr_Nomenklatura._Code AS Code,
-        spr_Nomenklatura._Description AS НазваНоменклатури,
-        spr_Nomenklatura._Marked AS ПоміткаВидалення,
-        spr_Nomenklatura._Folder AS Група
-    FROM _Reference149 AS spr_Nomenklatura
+        спрНоменклатура._IDRRef AS ID,
+        спрНоменклатура._Code AS Code,
+        спрНоменклатура._Description AS НазваНоменклатури,
+        спрНоменклатура._Marked AS ПоміткаВидалення,
+        спрНоменклатура._Folder AS Група
+    FROM _Reference149 AS спрНоменклатура
 )
-,spr_ZnachSvoistvOb AS (
+,спрЗначенияСвойствОбъектов AS (
     SELECT
-        spr_ZnachSvoistvOb._IDRRef AS ID,
-        spr_ZnachSvoistvOb._Code AS Code,
-        spr_ZnachSvoistvOb._Description AS НазваСвойства,
-        spr_ZnachSvoistvOb._Marked AS ПоміткаВидалення,
-        spr_ZnachSvoistvOb._Folder AS Група
+        спрЗначенияСвойствОбъектов._IDRRef AS ID,
+        спрЗначенияСвойствОбъектов._Code AS Code,
+        спрЗначенияСвойствОбъектов._Description AS НазваСвойства,
+        спрЗначенияСвойствОбъектов._Marked AS ПоміткаВидалення,
+        спрЗначенияСвойствОбъектов._Folder AS Група
     FROM
-        _Reference93 AS spr_ZnachSvoistvOb
+        _Reference93 AS спрЗначенияСвойствОбъектов
 )
-,planVidHar_TechSvoistvaOb AS (
+,планвидхарТехнологическиеСвойстваОбъектов AS (
     SELECT
-        planVidHar_TechSvoistvaOb._IDRRef AS ID,
-        planVidHar_TechSvoistvaOb._Code AS Code,
-        planVidHar_TechSvoistvaOb._Description AS NameN,
-        planVidHar_TechSvoistvaOb._Marked AS ПоміткаВидалення,
-        planVidHar_TechSvoistvaOb._Fld24417RRef AS ТипВластивості,
-        planVidHar_TechSvoistvaOb._Type AS Тип,
-        planVidHar_TechSvoistvaOb._Fld24398RRef AS ВаріантРозрахунку,
-        planVidHar_TechSvoistvaOb._Fld24399_TYPE AS ТипДанихДляРозрахунку,
-        planVidHar_TechSvoistvaOb._Fld24399_RRRef AS РозрахунокПосилання,
-        planVidHar_TechSvoistvaOb._Fld24399_N AS РозрахунокЧисло
-    FROM _Chrc24297 AS planVidHar_TechSvoistvaOb
+        планвидхарТехнологическиеСвойстваОбъектов._IDRRef AS ID,
+        планвидхарТехнологическиеСвойстваОбъектов._Code AS Code,
+        планвидхарТехнологическиеСвойстваОбъектов._Description AS NameN,
+        планвидхарТехнологическиеСвойстваОбъектов._Marked AS ПоміткаВидалення,
+        планвидхарТехнологическиеСвойстваОбъектов._Fld24417RRef AS ТипВластивості,
+        планвидхарТехнологическиеСвойстваОбъектов._Type AS Тип,
+        планвидхарТехнологическиеСвойстваОбъектов._Fld24398RRef AS ВаріантРозрахунку,
+        планвидхарТехнологическиеСвойстваОбъектов._Fld24399_TYPE AS ТипДанихДляРозрахунку,
+        планвидхарТехнологическиеСвойстваОбъектов._Fld24399_RRRef AS РозрахунокПосилання,
+        планвидхарТехнологическиеСвойстваОбъектов._Fld24399_N AS РозрахунокЧисло
+    FROM _Chrc24297 AS планвидхарТехнологическиеСвойстваОбъектов
 )
-,PropsOneColumnChar AS (
+,Props__МатінкоРіднаПростиМене__спрТХН AS (
     SELECT
-        spr_TechnolHaraktNomen.FK_Номенклатура AS FK_Номенклатура_Характеристики,
-        spr_TechnolHaraktNomen.Code AS КодХарактеристики,
-        spr_TechnolHaraktNomen.Назва AS НазваХарактеристики,
-        planVidHar_TechSvoistvaOb.NameN AS НазваСвойства,
-        spr_TechnolHaraktNomen_SpisokHarakt.Відхилення AS Відхилення,
+        спрТехнологическиеХарактеристикиНоменклатуры.FK_Номенклатура AS FK_Номенклатура_Характеристики,
+        спрТехнологическиеХарактеристикиНоменклатуры.Code AS КодХарактеристики,
+        спрТехнологическиеХарактеристикиНоменклатуры.Назва AS НазваХарактеристики,
+        планвидхарТехнологическиеСвойстваОбъектов.NameN AS НазваСвойства,
+        TbptСписокХарактеристик__спрТХН.Відхилення AS Відхилення,
         CASE -- все конвертується, бо кейс приймає тільки один тип даних (в півоті будуть нормальні типи)
-            WHEN spr_TechnolHaraktNomen_SpisokHarakt.ТипЗначення = 0x1 
-                THEN CONVERT(NVARCHAR(100), spr_TechnolHaraktNomen_SpisokHarakt.ЗначенняДата, 120)
-            WHEN spr_TechnolHaraktNomen_SpisokHarakt.ТипЗначення = 0x2 
+            WHEN TbptСписокХарактеристик__спрТХН.ТипЗначення = 0x1 
+                THEN CONVERT(NVARCHAR(100), TbptСписокХарактеристик__спрТХН.ЗначенняДата, 120)
+            WHEN TbptСписокХарактеристик__спрТХН.ТипЗначення = 0x2 
                 THEN 
                     CASE 
-                        WHEN spr_TechnolHaraktNomen_SpisokHarakt.ЗначенняЛогічне = 1 
+                        WHEN TbptСписокХарактеристик__спрТХН.ЗначенняЛогічне = 1 
                             THEN N'Так'
                         ELSE N'Ні'
                     END
-            WHEN spr_TechnolHaraktNomen_SpisokHarakt.ТипЗначення = 0x3 
-                THEN CAST(spr_TechnolHaraktNomen_SpisokHarakt.ЗначенняЧислове AS NVARCHAR(100))
-            WHEN spr_TechnolHaraktNomen_SpisokHarakt.ТипЗначення = 0x5                -- знаходила вручну
-                THEN CAST(spr_TechnolHaraktNomen_SpisokHarakt.ЗначенняСимвольне AS NVARCHAR(100))
-            WHEN spr_TechnolHaraktNomen_SpisokHarakt.ЗначенняRTRef = 0x00000095
-                THEN spr_Nomenklatura.НазваНоменклатури
-            WHEN spr_TechnolHaraktNomen_SpisokHarakt.ЗначенняRTRef = 0x0000005D
-                THEN spr_ZnachSvoistvOb.НазваСвойства
+            WHEN TbptСписокХарактеристик__спрТХН.ТипЗначення = 0x3 
+                THEN CAST(TbptСписокХарактеристик__спрТХН.ЗначенняЧислове AS NVARCHAR(100))
+            WHEN TbptСписокХарактеристик__спрТХН.ТипЗначення = 0x5                -- знаходила вручну
+                THEN CAST(TbptСписокХарактеристик__спрТХН.ЗначенняСимвольне AS NVARCHAR(100))
+            WHEN TbptСписокХарактеристик__спрТХН.ЗначенняRTRef = 0x00000095
+                THEN спрНоменклатура.НазваНоменклатури
+            WHEN TbptСписокХарактеристик__спрТХН.ЗначенняRTRef = 0x0000005D
+                THEN спрЗначенияСвойствОбъектов.НазваСвойства
             ELSE NULL
         END AS Значення
-    FROM spr_TechnolHaraktNomen
-        LEFT JOIN spr_TechnolHaraktNomen_SpisokHarakt
-            ON spr_TechnolHaraktNomen.ID = spr_TechnolHaraktNomen_SpisokHarakt.FK_Характеристика
-        LEFT JOIN spr_Nomenklatura
-            ON spr_TechnolHaraktNomen_SpisokHarakt.ЗначенняRRRef = spr_Nomenklatura.ID
-        LEFT JOIN spr_ZnachSvoistvOb
-            ON spr_TechnolHaraktNomen_SpisokHarakt.ЗначенняRRRef = spr_ZnachSvoistvOb.ID
-        LEFT JOIN spr_ZnachSvoistvOb AS spr_ZnachSvoistvOb_base
-            ON spr_TechnolHaraktNomen_SpisokHarakt.СвойствоRref = spr_ZnachSvoistvOb_base.ID
-        LEFT JOIN planVidHar_TechSvoistvaOb
-            ON spr_TechnolHaraktNomen_SpisokHarakt.СвойствоRref = planVidHar_TechSvoistvaOb.ID
+    FROM спрТехнологическиеХарактеристикиНоменклатуры
+        LEFT JOIN TbptСписокХарактеристик__спрТХН
+            ON спрТехнологическиеХарактеристикиНоменклатуры.ID = TbptСписокХарактеристик__спрТХН.FK_Характеристика
+        LEFT JOIN спрНоменклатура
+            ON TbptСписокХарактеристик__спрТХН.ЗначенняRRRef = спрНоменклатура.ID
+        LEFT JOIN спрЗначенияСвойствОбъектов
+            ON TbptСписокХарактеристик__спрТХН.ЗначенняRRRef = спрЗначенияСвойствОбъектов.ID
+        LEFT JOIN спрЗначенияСвойствОбъектов AS спрЗначенияСвойствОбъектов_base
+            ON TbptСписокХарактеристик__спрТХН.СвойствоRref = спрЗначенияСвойствОбъектов_base.ID
+        LEFT JOIN планвидхарТехнологическиеСвойстваОбъектов
+            ON TbptСписокХарактеристик__спрТХН.СвойствоRref = планвидхарТехнологическиеСвойстваОбъектов.ID
 )
-SELECT * FROM PropsOneColumnChar
+SELECT * FROM Props__МатінкоРіднаПростиМене__спрТХН
 ORDER BY КодХарактеристики

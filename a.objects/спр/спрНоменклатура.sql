@@ -42,23 +42,23 @@
     FROM
         _Reference93 AS спрЗначенияСвойствОбъектов
 )
-,спрВидиНоменклатури AS (
+,спрВидыНоменклатуры AS (
     SELECT
-        спрВидиНоменклатури._IDRRef AS ID_ВидиНоменклатури
-        ,спрВидиНоменклатури._Code AS Code_ВидиНоменклатури
-        ,спрВидиНоменклатури._Description AS Назва_ВидиНоменклатури
-        ,спрВидиНоменклатури._Marked AS ПоміткаВидалення_ВидиНоменклатури
-    FROM _Reference51 AS спрВидиНоменклатури
+        спрВидыНоменклатуры._IDRRef AS ID_ВидиНоменклатури
+        ,спрВидыНоменклатуры._Code AS Code_ВидиНоменклатури
+        ,спрВидыНоменклатуры._Description AS Назва_ВидиНоменклатури
+        ,спрВидыНоменклатуры._Marked AS ПоміткаВидалення_ВидиНоменклатури
+    FROM _Reference51 AS спрВидыНоменклатуры
 )
-,спрПроекти AS (
+,спрПроекты AS (
     SELECT
-        спрПроекти._IDRRef AS ID_Проекти
-        ,спрПроекти._Code AS Code_Проекти
-        ,спрПроекти._Description AS Назва_Проекти
-        ,спрПроекти._Marked AS ПоміткаВидалення_Проекти
-    FROM _Reference181 AS спрПроекти
+        спрПроекты._IDRRef AS ID_Проекти
+        ,спрПроекты._Code AS Code_Проекти
+        ,спрПроекты._Description AS Назва_Проекти
+        ,спрПроекты._Marked AS ПоміткаВидалення_Проекти
+    FROM _Reference181 AS спрПроекты
     WHERE 
-        спрПроекти._Marked = 0
+        спрПроекты._Marked = 0
 )
 ,регнакТоварыНаСкладах AS (
     SELECT
@@ -73,7 +73,7 @@
     FROM 
         _AccumRg22373 AS регнакТоварыНаСкладах
 )
-,Agregat_SumByEachNomenklatura_ТоварыНаСкладах AS (
+,Agr__СумаПоНоменклатурі__регнакТНС AS (
     SELECT
         регнакТоварыНаСкладах.FK_спрНоменклатура_ТоварыНаСкладах
         ,регнакТоварыНаСкладах.FK_спр_Склады_ТоварыНаСкладах
@@ -111,7 +111,7 @@
     FROM 
         _AccumRg24504 AS регнакВнутренниеРезервы
 )
-,Agregat_SumByEachNomenklatura_ВнутренниеРезервы AS (
+,Agr__СумаПоНоменклатурі__регнакВЗ AS (
     SELECT
         регнакВнутренниеРезервы.FK_спрНоменклатура_ВнутренниеРезервы AS FK_спрНоменклатура_SumByEachNomenklatura
         ,SUM(
@@ -126,7 +126,7 @@
     GROUP BY
         регнакВнутренниеРезервы.FK_спрНоменклатура_ВнутренниеРезервы
 )
-,Props_Svoistva_SvoistvaViz_Номенклатура AS (
+,Props__Свойства__спрН AS (
     SELECT
         регсведЗначенияСвойствОбъектов.Объект AS FK_Номенклатура_Свойства
         ,планвидхарСвойстваОбъектов.NameN AS НазваСвойства
@@ -150,7 +150,7 @@
             планвидхарСвойстваОбъектов.NameN = 'SKU'
     )
 )
-,Props_Svoistva_PivotViz_Номенклатура AS (
+,Props__СвойстваПівот__спрН AS (
     SELECT
         pvt.FK_Номенклатура_Свойства,
         Категорія,
@@ -162,7 +162,7 @@
             FK_Номенклатура_Свойства,
             НазваСвойства,
             НазваЗначення
-        FROM Props_Svoistva_SvoistvaViz_Номенклатура
+        FROM Props__Свойства__спрН
     ) src
     PIVOT (
         MIN(НазваЗначення)
@@ -174,22 +174,22 @@
         )
     ) pvt
 )
-,Props_Svoistva_Viz_Номенклатура AS (
+,Props__СвойстваВіз__спрН AS (
     SELECT
         спрНоменклатура.ID_спрНоменклатура
         ,спрНоменклатура.НоменклатураCode
         ,спрНоменклатура.НазваНоменклатури
         ,спрНоменклатура.ПоміткаВидаленняНоменклатури
         ,спрНоменклатура.ГрупаНоменклатури
-        ,спрВидиНоменклатури.Назва_ВидиНоменклатури
+        ,спрВидыНоменклатуры.Назва_ВидиНоменклатури
         ,спрНоменклатура.КількістьВУпаковці_Номенклатура
-        ,спрПроекти.Назва_Проекти
-        ,Props_Svoistva_PivotViz_Номенклатура.Категорія
-        ,Props_Svoistva_PivotViz_Номенклатура.Бренд
-        ,Props_Svoistva_PivotViz_Номенклатура.SKU
-        ,Props_Svoistva_PivotViz_Номенклатура.[Група Пріоритета]
+        ,спрПроекты.Назва_Проекти
+        ,Props__СвойстваПівот__спрН.Категорія
+        ,Props__СвойстваПівот__спрН.Бренд
+        ,Props__СвойстваПівот__спрН.SKU
+        ,Props__СвойстваПівот__спрН.[Група Пріоритета]
         ,CASE 
-        WHEN ISNULL(Props_Svoistva_PivotViz_Номенклатура.Бренд, 'Інше') IN (
+        WHEN ISNULL(Props__СвойстваПівот__спрН.Бренд, 'Інше') IN (
             'NATURELLE',
             'Purfix',
             'Biolly',
@@ -202,69 +202,69 @@
     END AS ТипБренду
     FROM спрНоменклатура
         LEFT JOIN 
-            спрВидиНоменклатури 
+            спрВидыНоменклатуры 
             ON 
-                спрВидиНоменклатури.ID_ВидиНоменклатури = спрНоменклатура.FK_ВидНоменклатурьі_Номенклатура
+                спрВидыНоменклатуры.ID_ВидиНоменклатури = спрНоменклатура.FK_ВидНоменклатурьі_Номенклатура
         LEFT JOIN 
-            спрПроекти
+            спрПроекты
             ON 
-                спрПроекти.ID_Проекти = спрНоменклатура.FK_Проект_КаналЗбуту_Номенклатура
+                спрПроекты.ID_Проекти = спрНоменклатура.FK_Проект_КаналЗбуту_Номенклатура
         LEFT JOIN 
-            Props_Svoistva_PivotViz_Номенклатура
+            Props__СвойстваПівот__спрН
             ON 
-                Props_Svoistva_PivotViz_Номенклатура.FK_Номенклатура_Свойства = спрНоменклатура.ID_спрНоменклатура
+                Props__СвойстваПівот__спрН.FK_Номенклатура_Свойства = спрНоменклатура.ID_спрНоменклатура
 )
-,Join_Agregat_SumByEachNomenklatura_ТоварыНаСкладах AS (
+,Join__Agr_СумаПоНоменклатурі_регнакТНС__спрН AS (
     SELECT
         *
     FROM
-        Props_Svoistva_Viz_Номенклатура
+        Props__СвойстваВіз__спрН
         LEFT JOIN
-        Agregat_SumByEachNomenklatura_ТоварыНаСкладах
-            ON Props_Svoistva_Viz_Номенклатура.ID_спрНоменклатура 
-                = Agregat_SumByEachNomenklatura_ТоварыНаСкладах.FK_спрНоменклатура_ТоварыНаСкладах
+        Agr__СумаПоНоменклатурі__регнакТНС
+            ON Props__СвойстваВіз__спрН.ID_спрНоменклатура 
+                = Agr__СумаПоНоменклатурі__регнакТНС.FK_спрНоменклатура_ТоварыНаСкладах
 )
-,Agregat_Join_Agregat_SumByEachNomenklatura_ТоварыНаСкладах_докНоменклатура AS (
+,Agr__Join_Agr_СумаПоНоменклатурі_регнакТНС__спрН AS (
     SELECT
-        SUM(Join_Agregat_SumByEachNomenklatura_ТоварыНаСкладах.SumByEachNomenklatura_ТоварыНаСкладах) AS Sum
+        SUM(Join__Agr_СумаПоНоменклатурі_регнакТНС__спрН.SumByEachNomenklatura_ТоварыНаСкладах) AS Sum
     FROM
-        Join_Agregat_SumByEachNomenklatura_ТоварыНаСкладах
+        Join__Agr_СумаПоНоменклатурі_регнакТНС__спрН
 )
-,Join_Agregat_SumByEachNomenklatura_ВнутренниеРезервы AS (
+,Join__Agr_СумаПоНоменклатурі_регнакВЗ__спрН AS (
     SELECT
         *
     FROM
-        Join_Agregat_SumByEachNomenklatura_ТоварыНаСкладах
+        Join__Agr_СумаПоНоменклатурі_регнакТНС__спрН
         LEFT JOIN
-        Agregat_SumByEachNomenklatura_ВнутренниеРезервы
-            ON Join_Agregat_SumByEachNomenklatura_ТоварыНаСкладах.ID_спрНоменклатура 
-                = Agregat_SumByEachNomenklatura_ВнутренниеРезервы.FK_спрНоменклатура_SumByEachNomenklatura
+        Agr__СумаПоНоменклатурі__регнакВЗ
+            ON Join__Agr_СумаПоНоменклатурі_регнакТНС__спрН.ID_спрНоменклатура 
+                = Agr__СумаПоНоменклатурі__регнакВЗ.FK_спрНоменклатура_SumByEachNomenklatura
 )
-,Agregat_Join_Agregat_SumByEachNomenklatura_ВнутренниеРезервы_докНоменклатура AS (
+,Agr__Join_Agr_СумаПоНоменклатурі_регнакВЗ__спрН AS (
     SELECT
-        SUM(Join_Agregat_SumByEachNomenklatura_ВнутренниеРезервы.SumByEachNomenklatura_ВнутренниеРезервы) AS Sum
+        SUM(Join__Agr_СумаПоНоменклатурі_регнакВЗ__спрН.SumByEachNomenklatura_ВнутренниеРезервы) AS Sum
     FROM
-        Join_Agregat_SumByEachNomenklatura_ВнутренниеРезервы
+        Join__Agr_СумаПоНоменклатурі_регнакВЗ__спрН
 )
-,Props_ВільнийЗалишок_спрНоменклатура AS (
+,Props__ВільнийЗалишок__спрН AS (
     SELECT
         *
-        ,ISNULL(Join_Agregat_SumByEachNomenklatura_ВнутренниеРезервы.SumByEachNomenklatura_ТоварыНаСкладах, 0)
-            - ISNULL(Join_Agregat_SumByEachNomenklatura_ВнутренниеРезервы.SumByEachNomenklatura_ВнутренниеРезервы, 0)
+        ,ISNULL(Join__Agr_СумаПоНоменклатурі_регнакВЗ__спрН.SumByEachNomenklatura_ТоварыНаСкладах, 0)
+            - ISNULL(Join__Agr_СумаПоНоменклатурі_регнакВЗ__спрН.SumByEachNomenklatura_ВнутренниеРезервы, 0)
                 AS ВільнийЗалишок
     FROM
-        Join_Agregat_SumByEachNomenklatura_ВнутренниеРезервы
+        Join__Agr_СумаПоНоменклатурі_регнакВЗ__спрН
 )
-,TEST AS (
+,working AS (
     SELECT
         НазваНоменклатури
-        ,Agregat_SumByEachNomenklatura_ВнутренниеРезервы.SumByEachNomenklatura_ВнутренниеРезервы
+        ,Agr__СумаПоНоменклатурі__регнакВЗ.SumByEachNomenklatura_ВнутренниеРезервы
     FROM
-        Agregat_SumByEachNomenklatura_ВнутренниеРезервы
+        Agr__СумаПоНоменклатурі__регнакВЗ
         LEFT JOIN
             спрНоменклатура
             ON
-                Agregat_SumByEachNomenklatura_ВнутренниеРезервы.FK_спрНоменклатура_SumByEachNomenklatura
+                Agr__СумаПоНоменклатурі__регнакВЗ.FK_спрНоменклатура_SumByEachNomenklatura
                     = спрНоменклатура.ID_спрНоменклатура
 )
-SELECT * FROM Props_ВільнийЗалишок_спрНоменклатура
+SELECT * FROM Props__ВільнийЗалишок__спрН
