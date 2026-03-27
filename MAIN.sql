@@ -952,30 +952,38 @@
         *
     FROM (
         SELECT
-            TbptПродукция__докЗНП._Document315_IDRRef ParentID__докЗаказНаПроизводство__TbptПродукция_докЗНП,
-            TbptПродукция__докЗНП._Fld5477RRef FK__Номенклатура__спрНоменклатура_TbptП_докЗНП,
-            TbptПродукция__докЗНП._Fld5486_RRRef FK__Заказ__TbptПродукция_докЗНП,
-            TbptПродукция__докЗНП._Fld23758RRef FK__Статус__TbptПродукция_дoкЗНП,
-            TbptПродукция__докЗНП._Fld5481 own__Кількість__TbptПродукция_докЗНП,
-            CASE 
-                WHEN _Fld23758RRef = 0xA5ACB7012F23EC4A4A54E97C817047F3 THEN 'Виконано'
-                WHEN _Fld23758RRef = 0xB68AA80C992C994C434CD6290CC49AF3 THEN 'В роботі'
-                WHEN _Fld23758RRef = 0xB10F03D9E1E097A142E1C0456E0E25EB THEN 'Новий'
+            TbptПродукция__докЗНП._Document315_IDRRef ParentID__докЗаказНаПроизводство__TbptПродукция_докЗНП
+            ,TbptПродукция__докЗНП._Fld5477RRef FK__Номенклатура__спрНоменклатура_TbptП_докЗНП
+            ,TbptПродукция__докЗНП._Fld5486_RRRef FK__Заказ__TbptПродукция_докЗНП
+            ,TbptПродукция__докЗНП._Fld23758RRef FK__Статус__TbptПродукция_дoкЗНП
+            ,TbptПродукция__докЗНП._Fld5481 own__Кількість__TbptПродукция_докЗНП
+            ,CASE 
+                WHEN _Fld23758RRef = 0xA5ACB7012F23EC4A4A54E97C817047F3 
+                    THEN 'Виконано'
+                WHEN _Fld23758RRef = 0xB68AA80C992C994C434CD6290CC49AF3 
+                    THEN 'В роботі'
+                WHEN _Fld23758RRef = 0xB10F03D9E1E097A142E1C0456E0E25EB 
+                    THEN 'Новий'
                 ELSE '-'
-            END AS calc__Статус__TbptПродукция_докЗНП, -- це з.. статусиЗаказовНаПроизв шось таке. може трохи інакше називається
-            ROW_NUMBER() OVER(
+            END calc__Статус__TbptПродукция_докЗНП -- це з.. статусиЗаказовНаПроизв шось таке. може трохи інакше називається
+            ,ROW_NUMBER() OVER(
                 PARTITION BY _Fld5486_RRRef, _Fld5477RRef
                 ORDER BY 
                     CASE 
-                        WHEN _Fld23758RRef = 0xA5ACB7012F23EC4A4A54E97C817047F3 THEN 1  -- Виконано
-                        WHEN _Fld23758RRef = 0xB68AA80C992C994C434CD6290CC49AF3 THEN 2  -- В роботі
-                        WHEN _Fld23758RRef = 0xB10F03D9E1E097A142E1C0456E0E25EB THEN 3  -- Новий
+                        WHEN _Fld23758RRef = 0xA5ACB7012F23EC4A4A54E97C817047F3 
+                            THEN 1  -- Виконано
+                        WHEN _Fld23758RRef = 0xB68AA80C992C994C434CD6290CC49AF3 
+                            THEN 2  -- В роботі
+                        WHEN _Fld23758RRef = 0xB10F03D9E1E097A142E1C0456E0E25EB 
+                            THEN 3  -- Новий
                         ELSE 4
                     END
             ) calc__RowNumber__TbptПродукция_докЗНП
-        FROM _Document315_VT5475 AS TbptПродукция__докЗНП
+        FROM 
+            _Document315_VT5475 AS TbptПродукция__докЗНП
     ) TbptПродукция__докЗНП
-    WHERE calc__RowNumber__TbptПродукция_докЗНП = 1
+    WHERE 
+        calc__RowNumber__TbptПродукция_докЗНП = 1
 )
 ,Join__TbptПродукция__докЗНП AS (
     SELECT
@@ -984,18 +992,19 @@
             WHEN calc__Статус__TbptПродукция_докЗНП = 'В роботі'
                 THEN own__Кількість__TbptПродукция_докЗНП
             ELSE 0
-        END AS own__Кількість__TbptПродукция_докЗНП_ВРоботі
+        END own__Кількість__TbptПродукция_докЗНП_ВРоботі
         ,CASE 
             WHEN calc__Статус__TbptПродукция_докЗНП = 'Виконано'
                 THEN own__Кількість__TbptПродукция_докЗНП
             ELSE 0
-        END AS own__Кількість__TbptПродукция_докЗНП_Виконано
+        END own__Кількість__TbptПродукция_докЗНП_Виконано
     FROM
         докЗаказНаПроизводство
         LEFT JOIN 
             TbptПродукция__докЗНП 
-            ON докЗаказНаПроизводство.ID__Ссылка__докЗаказНаПроизводство 
-                = TbptПродукция__докЗНП.ParentID__докЗаказНаПроизводство__TbptПродукция_докЗНП
+            ON 
+                докЗаказНаПроизводство.ID__Ссылка__докЗаказНаПроизводство 
+                    = TbptПродукция__докЗНП.ParentID__докЗаказНаПроизводство__TbptПродукция_докЗНП
     WHERE 
         докЗаказНаПроизводство.ID__Ссылка__докЗаказНаПроизводство <> 0xA66C0050569F1E6A11EF8A2413FC71A6 -- там помилка в базі
 )
