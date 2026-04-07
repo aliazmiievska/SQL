@@ -3421,7 +3421,7 @@ UNION ALL
     FROM
         Props__NULL_ДляВізуалізації__ВНП
 )
-
+--
 ,Join__Viz_ЗП_План_Факт_регнакЗ__ВНП AS ( -- 1:N
     SELECT
         *
